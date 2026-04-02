@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Finance Data Dashboard API",
+    "version": "1.0.0",
+    "description": "API documentation for the Finance Data Processing and Access Control Backend"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Local Development Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Login as user",
+        "tags": ["Auth"],
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "admin@finance.com" },
+                  "password": { "type": "string", "example": "admin123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Successful operation" }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "summary": "Get logged in user profile",
+        "tags": ["Auth"],
+        "responses": {
+          "200": { "description": "Profile info" }
+        }
+      }
+    },
+    "/api/v1/dashboard": {
+      "get": {
+        "summary": "Get Dashboard Summary (Net Balance, Income/Expense)",
+        "tags": ["Dashboard"],
+        "responses": {
+          "200": { "description": "Successful operation" }
+        }
+      }
+    },
+    "/api/v1/records": {
+      "get": {
+        "summary": "Get financial records",
+        "tags": ["Records"],
+        "responses": { "200": { "description": "Array of records" } }
+      },
+      "post": {
+        "summary": "Create record (Admin Only)",
+        "tags": ["Records"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": { "type": "number", "example": 2000 },
+                  "type": { "type": "string", "example": "income" },
+                  "category": { "type": "string", "example": "salary" },
+                  "date": { "type": "string", "example": "2026-04-01T10:00:00Z" },
+                  "notes": { "type": "string", "example": "Monthly Salary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/api/v1/users": {
+        "get": {
+          "summary": "List all users (Admin Only)",
+          "tags": ["Users"],
+          "responses": { "200": { "description": "Array of users" } }
+        }
+    }
+  }
+}

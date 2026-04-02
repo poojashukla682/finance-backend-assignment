@@ -11,7 +11,13 @@ const userRoutes = require('./routes/user.routes');
 // Import middlewares
 const errorHandler = require('./middlewares/error.middleware');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
+
 const app = express();
+
+// API Documentation Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Global Middlewares
 app.use(express.json());
